@@ -1,7 +1,8 @@
 slip-gallery.js 
 
-
+@@@@@@@@@@@
 Change List
+@@@@@@@@@@@
 
-Version 1.00 - Unstable
+=== Version 1.00 - Unstable ===
 - Initial creation.
