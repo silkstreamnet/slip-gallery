@@ -4,5 +4,9 @@ slip-gallery.js
 Change List
 @@@@@@@@@@@
 
-=== Version 1.00 - Unstable ===
+=== Version 1.01 ===
+- Modified the thumb engine to center on selected.
+- Smoothed and stabilised the thumb navigation functionality.
+
+=== Version 1.00 ===
 - Initial creation.
