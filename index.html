@@ -12,6 +12,11 @@
         #thumbs .slide {float:left; width:30%; height:auto;}
         #thumbs .slide img {max-width:90%; height:auto; width:90%; padding: 4px; background:#ccc; display:block; margin:0 auto;}
         #thumbs .slide.slip-gallery-thumbs-slide-active img {background:#000;}
+
+        #thumbs2 {}
+        #thumbs2 .split {/*width:5px; float:left; height:1px;*/}
+        #thumbs2 .slide {margin-right:5px;}
+        #thumbs2 .slide img {width:100%;}
     </style>
 </head>
 <body>
@@ -55,9 +60,10 @@
         <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
     </div>
     <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide hide">
+    <div class="span30 span-parent slide">
         <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
     </div>
+    <div class="span5 span-parent split"></div>
     <div class="span30 span-parent slide">
         <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
     </div>
@@ -76,6 +82,58 @@
 </div>
 <a id="prev" href="javascript:void(0)">Prev</a>
 <a id="next" href="javascript:void(0)">Next</a>
+    <div class="property-image" id="gallery2">
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+        </div>
+    </div>
+    <div class="row-fluid" id="thumbs2">
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
@@ -92,6 +150,15 @@ $(function(){
         autoLoop:false,
         fade:true
 	});
+    $('#gallery2').SlipGallery({
+        mainChildSelector:'.slide',
+        thumbsContainerSelector:'#thumbs2',
+        thumbsChildSelector:'.slide',
+        thumbsShown: 3,
+        prevSelector:'#prev',
+        nextSelector:'#next',
+        autoLoop:false
+    });
 });
 </script>
 </body>

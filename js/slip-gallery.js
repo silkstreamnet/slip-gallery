@@ -15,7 +15,7 @@
         thumbsChildSpaceSelector:'', //need to be able to select spacing div
         thumbsSpaceWidth:'auto', //need to be able to specify spacing width. if 'auto' then use its current width.
         thumbsSpaceHeight:'auto',
-        thumbsShown:'auto', //need to use this to calculate
+        thumbsShown:5, //need to use this to calculate, must be set to a positive integer
         fixHeight:true,
         fixWidth:false,
         prevSelector:'',
@@ -48,6 +48,34 @@
     {
         obj.attr(attr,val);
     }
+
+    /*function loadImages(settings,slides,thumbs)
+    {
+        slides.eq(0)
+            var nimg = new Image();
+            nimg.src = settings._imageSource;
+            setTimeout(function(){
+                if (nimg.complete)
+                {
+                    settings.naturalImgWidth = nimg.width;
+                    settings.naturalImgHeight = nimg.height;
+                    objects.zbimg.attr('src',settings._imageSource);
+                    scale(objects,settings);
+                }
+                else
+                {
+                    nimg.onload = function()
+                    {
+                        settings.naturalImgWidth = this.width;
+                        settings.naturalImgHeight = this.height;
+                        objects.zbimg.attr('src',settings._imageSource);
+                        scale(objects,settings);
+                    };
+                }
+
+            },1);
+
+    }*/
 
     function dataOverride(_sliders,settings)
     {

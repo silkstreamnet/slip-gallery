@@ -15,7 +15,7 @@ How To Use
     thumbsChildSpaceSelector:''     // Recommended to leave default. (untested/unfinished)
     thumbsSpaceWidth:'auto'         // Recommended to leave default. (untested/unfinished)
     thumbsSpaceHeight:'auto'        // Recommended to leave default. (untested/unfinished)
-    thumbsShown:'auto'              // IMPORTANT: 'auto' does not work, this must be set to an integer.
+    thumbsShown:5                   // This must be set to a positive integer.
     fixHeight:true                  // Recommended to leave default. (untested/unfinished)
     fixWidth:false                  // Recommended to leave default. (untested/unfinished)
     prevSelector:''                 // Define the jQuery selector for the your Previous Slide button.
@@ -32,6 +32,7 @@ Things to Add
 @@@@@@@@@@@@@
 
 No image preload check in place yet (need to place one on the first image in the thumbs and first image in the gallery)
+Add a "spacing" option which will accept % and px. e.g. ('5%','5px',5)
 
 
 @@@@@@@@
