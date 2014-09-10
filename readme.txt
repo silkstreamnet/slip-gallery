@@ -31,7 +31,7 @@ View index.html for example code.
 Things to Add
 @@@@@@@@@@@@@
 
-No image preload check in place yet (need to place one on the first image in the thumbs and first image in the gallery)
+Need to add an option to set how many images should be preloaded. Would need to separate thumbs and slides to make sure both get preloaded by the total count. e.g. "3" would load 3 slides and 3 thumbs.
 Add a "spacing" option which will accept % and px. e.g. ('5%','5px',5)
 
 
@@ -43,5 +43,6 @@ Stable:
 - None
 
 Unstable:
+- 1-02
 - 1-01
 - 1-00

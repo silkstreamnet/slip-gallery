@@ -4,6 +4,9 @@ slip-gallery.js
 Change List
 @@@@@@@@@@@
 
+=== Version 1.02 ===
+- Added preload functionality. Currently waits for all images to load before building Slip Gallery.
+
 === Version 1.01 ===
 - Modified the thumb engine to center on selected.
 - Smoothed and stabilised the thumb navigation functionality.
