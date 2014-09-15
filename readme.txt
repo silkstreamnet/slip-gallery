@@ -10,9 +10,8 @@ How To Use
     thumbsContainerWidth:'auto'     // Recommended to leave default. (untested/unfinished)
     thumbsContainerHeight:'auto'    // Recommended to leave default. (untested/unfinished)
     thumbsChildSelector: '>*'       // Define the jQuery selector for the your thumb children elements/slides.
-    thumbsWidth:'auto'              // Set to 'auto' for flexibility. Set to an integer if you require each thumb to have a set width.
+    thumbsWidth:'auto'              // Set to 'auto' for flexibility. Accepts an integer, percentage as a string, px as a string.
     thumbsHeight:'auto'             // Recommended to leave default. (untested/unfinished)
-    thumbsChildSpaceSelector:''     // Recommended to leave default. (untested/unfinished)
     thumbsSpaceWidth:'auto'         // Recommended to leave default. (untested/unfinished)
     thumbsSpaceHeight:'auto'        // Recommended to leave default. (untested/unfinished)
     thumbsShown:5                   // This must be set to a positive integer.
@@ -31,8 +30,12 @@ View index.html for example code.
 Things to Add
 @@@@@@@@@@@@@
 
-Need to add an option to set how many images should be preloaded. Would need to separate thumbs and slides to make sure both get preloaded by the total count. e.g. "3" would load 3 slides and 3 thumbs.
-Add a "spacing" option which will accept % and px. e.g. ('5%','5px',5)
+Short term:
+- Need to add an option to set how many images should be preloaded. Would need to separate thumbs and slides to make sure both get preloaded by the total count. e.g. "3" would load 3 slides and 3 thumbs.
+- Add a "thumbsSpace" option which will accept % and px. e.g. ('5%','5px',5) - go hand in hand with thumbsWidth
+
+Long term:
+- Add support for vertical thumbs
 
 
 @@@@@@@@
@@ -43,6 +46,7 @@ Stable:
 - None
 
 Unstable:
+- 1-03
 - 1-02
 - 1-01
 - 1-00

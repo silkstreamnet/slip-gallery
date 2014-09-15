@@ -15,7 +15,7 @@
 
         #thumbs2 {}
         #thumbs2 .split {/*width:5px; float:left; height:1px;*/}
-        #thumbs2 .slide {margin-right:5px;}
+        #thumbs2 .slide {}
         #thumbs2 .slide img {width:100%;}
     </style>
 </head>
@@ -154,10 +154,12 @@ $(function(){
         mainChildSelector:'.slide',
         thumbsContainerSelector:'#thumbs2',
         thumbsChildSelector:'.slide',
-        thumbsShown: 3,
+        thumbsShown: 5,
+        thumbsWidth: '19.2%',
         prevSelector:'#prev',
         nextSelector:'#next',
-        autoLoop:false
+        autoLoop:false,
+        fade:true
     });
 });
 </script>

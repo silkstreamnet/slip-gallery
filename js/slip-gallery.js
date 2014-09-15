@@ -12,7 +12,6 @@
         thumbsChildSelector: '>*',
         thumbsWidth:'auto', //need to be able to specify thumb width. if 'auto' then use its current width.
         thumbsHeight:'auto',
-        thumbsChildSpaceSelector:'', //need to be able to select spacing div
         thumbsSpaceWidth:'auto', //need to be able to specify spacing width. if 'auto' then use its current width.
         thumbsSpaceHeight:'auto',
         thumbsShown:5, //need to use this to calculate, must be set to a positive integer
@@ -348,10 +347,38 @@
         if (controllers._thumbsChildren && settings.thumbsShown >= 1)
         {
             var thumbsContainerWidth = (settings.thumbsContainerWidth > 0) ? settings.thumbsContainerWidth : controllers._thumbsContainer.width();
-            var thumbsWidth = (settings.thumbsWidth > 0) ? settings.thumbsWidth : thumbsContainerWidth / settings.thumbsShown;
+            var thumbsWidth = 0;
+            var thumbsSpace = 0;
+
+            if (typeof settings.thumbsWidth == 'string' || settings.thumbsWidth instanceof String)
+            {
+                if (settings.thumbsWidth.match(/^[0-9]{1,3}(\.[0-9]+)?%$/))
+                {
+                    thumbsWidth = thumbsContainerWidth*(parseFloat(settings.thumbsWidth)/100);
+                }
+                else if (settings.thumbsWidth.match(/^[0-9]+(\.[0-9]+)?px$/))
+                {
+                    thumbsWidth = parseFloat(settings.thumbsWidth);
+                }
+
+                if (thumbsWidth > 0 && settings.thumbsShown > 1) thumbsSpace = (thumbsContainerWidth-(thumbsWidth*settings.thumbsShown))/(settings.thumbsShown-1);
+            }
+            else if (typeof settings.thumbsWidth == 'number' || settings.thumbsWidth instanceof Number)
+            {
+                if (settings.thumbsWidth > 0)
+                {
+                    thumbsWidth = settings.thumbsWidth;
+                }
+            }
+
+            if (thumbsWidth == 0)
+            {
+                thumbsWidth = thumbsContainerWidth / settings.thumbsShown;
+            }
+
 
             controllers._thumbsChildren.each(function(){
-                $(this).width(thumbsWidth);
+                $(this).width(thumbsWidth).css('margin-right',thumbsSpace+'px');
             });
         }
     }
@@ -492,7 +519,7 @@
 
                     var newLeft = Math.abs(newThumbPos.left);
                     var curLeft = Math.abs(controllers._thumbsWrap.position().left);
-                    var maxLeft = (Math.abs(lastThumbPos.left)+_lastThumb.outerWidth(true))-thumbsContainerTWidth;
+                    var maxLeft = (Math.abs(lastThumbPos.left)+_lastThumb.outerWidth(false))-thumbsContainerTWidth;
 
                     newLeft -= sp_offset;
                     if (newLeft < 0) newLeft = 0;

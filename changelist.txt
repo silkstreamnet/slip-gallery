@@ -5,7 +5,8 @@ Change List
 @@@@@@@@@@@
 
 === Version 1.03 ===
-- Fixed issue in Firefox where
+- Fixed issue in Firefox where main image was not scaling correctly.
+- Added functionality to define thumb width. (new setting: thumbsWidth)
 
 === Version 1.02 ===
 - Added preload functionality. Currently waits for all images to load before building Slip Gallery.
