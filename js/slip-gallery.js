@@ -203,7 +203,9 @@
                     _sliderChild.css({
                         'position':'absolute',
                         'left':'0px',
-                        'top':'0px'
+                        'top':'0px',
+                        'max-width':'100%',
+                        'height':'auto'
                     });
 
                     if (i == 0)

@@ -4,6 +4,9 @@ slip-gallery.js
 Change List
 @@@@@@@@@@@
 
+=== Version 1.03 ===
+- Fixed issue in Firefox where
+
 === Version 1.02 ===
 - Added preload functionality. Currently waits for all images to load before building Slip Gallery.
 
