@@ -203,7 +203,7 @@
                         'position':'absolute',
                         'left':'0px',
                         'top':'0px',
-                        'max-width':'100%',
+                        'width':'100%',
                         'height':'auto'
                     });
 
