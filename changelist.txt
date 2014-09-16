@@ -4,6 +4,12 @@ slip-gallery.js
 Change List
 @@@@@@@@@@@
 
+=== Version 1.04 ===
+- Optimised container scaling.
+- Removed fixHeight and fixWidth settings as they were redundant.
+- Added thumbsSpace setting.
+- Fixed width calculation when border/padding is applied to thumb element.
+
 === Version 1.03 ===
 - Fixed issue in Firefox where main image was not scaling correctly.
 - Added functionality to define thumb width. (new setting: thumbsWidth)

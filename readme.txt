@@ -12,11 +12,9 @@ How To Use
     thumbsChildSelector: '>*'       // Define the jQuery selector for the your thumb children elements/slides.
     thumbsWidth:'auto'              // Set to 'auto' for flexibility. Accepts an integer, percentage as a string, px as a string.
     thumbsHeight:'auto'             // Recommended to leave default. (untested/unfinished)
-    thumbsSpaceWidth:'auto'         // Recommended to leave default. (untested/unfinished)
-    thumbsSpaceHeight:'auto'        // Recommended to leave default. (untested/unfinished)
+    thumbsSpace:0                   // Accepts an integer, percentage as a string, px as a string. Overrides thumbsWidth or thumbsHeight calculation for spacing.
     thumbsShown:5                   // This must be set to a positive integer.
-    fixHeight:true                  // Recommended to leave default. (untested/unfinished)
-    fixWidth:false                  // Recommended to leave default. (untested/unfinished)
+    thumbsOrientation:'horizontal'  // Accepts 'horizontal' or 'vertical'.
     prevSelector:''                 // Define the jQuery selector for the your Previous Slide button.
     nextSelector:''                 // Define the jQuery selector for the your Next Slide button.
     fade:false                      // Set to true to enable fade effect otherwise false for immediate change (this may change to fx in the future)
@@ -32,8 +30,6 @@ Things to Add
 
 Short term:
 - Need to add an option to set how many images should be preloaded. Would need to separate thumbs and slides to make sure both get preloaded by the total count. e.g. "3" would load 3 slides and 3 thumbs.
-- Add a "thumbsSpace" option which will accept % and px. e.g. ('5%','5px',5) - go hand in hand with thumbsWidth
-- Needs improvements to padding and borders calculations.
 - Add setting for fixed proportion on both slider and thumbs. e.g. "500x350". Any images that do not push the height will require this setting.
 
 Long term:

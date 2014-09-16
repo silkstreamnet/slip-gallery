@@ -1,22 +1,16 @@
 (function($){
 
-    /*
-     * In order to implement scaling you need to specify the number of thumbs shown. Then use the container and thumb size dimension options.
-     */
-
     var defaults = {
         mainChildSelector: '>*',
         thumbsContainerSelector: '',
         thumbsContainerWidth:'auto', //need to be able to specify container width. if 'auto' then use its current width.
         thumbsContainerHeight:'auto',
         thumbsChildSelector: '>*',
-        thumbsWidth:'auto', //need to be able to specify thumb width. if 'auto' then use its current width.
+        thumbsWidth:'auto', //need to be able to specify thumb width. if 'auto' then use its current/calculated width.
         thumbsHeight:'auto',
-        thumbsSpaceWidth:'auto', //need to be able to specify spacing width. if 'auto' then use its current width.
-        thumbsSpaceHeight:'auto',
+        thumbsSpace:0, //need to be able to specify spacing size.
         thumbsShown:5, //need to use this to calculate, must be set to a positive integer
-        fixHeight:true,
-        fixWidth:false,
+        thumbsOrientation:'horizontal',
         prevSelector:'',
         nextSelector:'',
         fade:false,
@@ -177,9 +171,6 @@
                     'display':'block'
                 });
 
-                //if (settings.fixWidth) _thumbsContainer.width(_thumbsContainer.width());
-                //if (settings.fixHeight) _thumbsContainer.height(_thumbsContainer.height());
-
                 _thumbsChildren.eq(0).addClass('slip-gallery-thumbs-slide-active');
             }
 
@@ -330,56 +321,96 @@
 
     function scaleContainers(controllers,settings)
     {
-        controllers._thumbsWrap.css('min-height',controllers._thumbsChildren.eq(0).outerHeight(false));
-        controllers._thumbsWrap.css('min-width',controllers._thumbsChildren.eq(0).outerWidth(false));
+        var _firstThumbsChild = controllers._thumbsChildren.eq(0);
 
-        if (settings.fixWidth || settings.fixHeight)
-        {
-            controllers._thumbsWrap.css('position','static');
-            if (settings.fixWidth) controllers._thumbsContainer.css('width','').width(controllers._thumbsContainer.width());
-            if (settings.fixHeight) controllers._thumbsContainer.css('height','').height(controllers._thumbsContainer.height());
-            controllers._thumbsWrap.css('position','absolute');
-        }
+        controllers._thumbsWrap.css({
+            'min-height':_firstThumbsChild.outerHeight(false),
+            'min-width':_firstThumbsChild.outerWidth(false),
+            'position':'static'
+        });
+
+        controllers._thumbsContainer.css({
+            'width':'',
+            'height':''
+        });
+
+        controllers._thumbsContainer.width(controllers._thumbsContainer.width());
+        controllers._thumbsContainer.height(controllers._thumbsContainer.height());
+
+        controllers._thumbsWrap.css('position','absolute');
     }
 
     function scaleThumbs(controllers,settings)
     {
         if (controllers._thumbsChildren && settings.thumbsShown >= 1)
         {
-            var thumbsContainerWidth = (settings.thumbsContainerWidth > 0) ? settings.thumbsContainerWidth : controllers._thumbsContainer.width();
-            var thumbsWidth = 0;
-            var thumbsSpace = 0;
+            var dimension = (controllers.thumbsOrientation == 'vertical') ? 'Height' : 'Width';
+            var p = {
+                thumbsContainerWidth:(settings.thumbsContainerWidth > 0) ? settings.thumbsContainerWidth : controllers._thumbsContainer.width(),
+                thumbsContainerHeight:(settings.thumbsContainerHeight > 0) ? settings.thumbsContainerHeight : controllers._thumbsContainer.height(),
+                thumbsWidth:0,
+                thumbsHeight:0,
+                thumbsSpace:0
+            };
 
-            if (typeof settings.thumbsWidth == 'string' || settings.thumbsWidth instanceof String)
+            if (typeof settings.thumbsSpace == 'string' || settings.thumbsSpace instanceof String)
             {
-                if (settings.thumbsWidth.match(/^[0-9]{1,3}(\.[0-9]+)?%$/))
+                if (settings.thumbsSpace.match(/^[0-9]{1,3}(\.[0-9]+)?%$/))
                 {
-                    thumbsWidth = thumbsContainerWidth*(parseFloat(settings.thumbsWidth)/100);
+                    p.thumbsSpace = p['thumbsContainer'+dimension]*(parseFloat(settings.thumbsSpace)/100);
                 }
-                else if (settings.thumbsWidth.match(/^[0-9]+(\.[0-9]+)?px$/))
+                else if (settings.thumbsSpace.match(/^[0-9]+(\.[0-9]+)?px$/))
                 {
-                    thumbsWidth = parseFloat(settings.thumbsWidth);
-                }
-
-                if (thumbsWidth > 0 && settings.thumbsShown > 1) thumbsSpace = (thumbsContainerWidth-(thumbsWidth*settings.thumbsShown))/(settings.thumbsShown-1);
-            }
-            else if (typeof settings.thumbsWidth == 'number' || settings.thumbsWidth instanceof Number)
-            {
-                if (settings.thumbsWidth > 0)
-                {
-                    thumbsWidth = settings.thumbsWidth;
+                    p.thumbsSpace = parseFloat(settings.thumbsSpace);
                 }
             }
-
-            if (thumbsWidth == 0)
+            else if ((typeof settings.thumbsSpace == 'number' || settings.thumbsSpace instanceof Number) && settings.thumbsSpace > 0)
             {
-                thumbsWidth = thumbsContainerWidth / settings.thumbsShown;
+                p.thumbsSpace = settings.thumbsSpace;
+            }
+            else if (typeof settings['thumbs'+dimension] == 'string' || settings['thumbs'+dimension] instanceof String)
+            {
+                if (settings['thumbs'+dimension].match(/^[0-9]{1,3}(\.[0-9]+)?%$/))
+                {
+                    p['thumbs'+dimension] = p['thumbsContainer'+dimension]*(parseFloat(settings['thumbs'+dimension])/100);
+                }
+                else if (settings['thumbs'+dimension].match(/^[0-9]+(\.[0-9]+)?px$/))
+                {
+                    p['thumbs'+dimension] = parseFloat(settings['thumbs'+dimension]);
+                }
+            }
+            else if ((typeof settings['thumbs'+dimension] == 'number' || settings['thumbs'+dimension] instanceof Number) && settings['thumbs'+dimension] > 0)
+            {
+                p['thumbs'+dimension] = settings['thumbs'+dimension];
             }
 
+            if (settings.thumbsShown > 1)
+            {
+                if (p.thumbsSpace > 0) p['thumbs'+dimension] = (p['thumbsContainer'+dimension]-(p.thumbsSpace*(settings.thumbsShown-1)))/settings.thumbsShown;
+                else if (p['thumbs'+dimension] > 0) p.thumbsSpace = (p['thumbsContainer'+dimension]-(p['thumbs'+dimension]*settings.thumbsShown))/(settings.thumbsShown-1);
+            }
 
-            controllers._thumbsChildren.each(function(){
-                $(this).width(thumbsWidth).css('margin-right',thumbsSpace+'px');
-            });
+            if (p['thumbs'+dimension] == 0)
+            {
+                p['thumbs'+dimension] = p['thumbsContainer'+dimension] / settings.thumbsShown;
+            }
+
+            if (controllers.thumbsOrientation == 'vertical')
+            {
+                controllers._thumbsChildren.each(function(){
+                    var $this = $(this);
+                    var pad = $this.outerHeight(false)-$this.height();
+                    $this.height(p.thumbsHeight-pad).css('margin-bottom', p.thumbsSpace+'px');
+                });
+            }
+            else
+            {
+                controllers._thumbsChildren.each(function(){
+                    var $this = $(this);
+                    var pad = $this.outerWidth(false)-$this.width();
+                    $this.width(p.thumbsWidth-pad).css('margin-right', p.thumbsSpace+'px');
+                });
+            }
         }
     }
 

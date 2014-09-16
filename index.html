@@ -14,11 +14,12 @@
         #thumbs .slide.slip-gallery-thumbs-slide-active img {background:#000;}
 
         #thumbs2 {}
-        #thumbs2 .split {/*width:5px; float:left; height:1px;*/}
         #thumbs2 .slide {}
         #thumbs2 .slide img {width:100%;}
 
-        #thumbs3 .slide img {width:100%;}
+        #thumbs3 {}
+        #thumbs3 .slide {text-align:center;border:4px solid #bbb;}
+        #thumbs3 .slide img {width:100%; display:inline-block;}
     </style>
 </head>
 <body>
@@ -196,7 +197,7 @@ $(function(){
         thumbsContainerSelector:'#thumbs3',
         thumbsChildSelector:'.slide',
         thumbsShown: 3,
-        thumbsWidth: '32%',
+        thumbsSpace: 5,
         prevSelector:'#prev',
         nextSelector:'#next',
         autoLoop:false,
