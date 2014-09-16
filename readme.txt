@@ -33,6 +33,7 @@ Things to Add
 Short term:
 - Need to add an option to set how many images should be preloaded. Would need to separate thumbs and slides to make sure both get preloaded by the total count. e.g. "3" would load 3 slides and 3 thumbs.
 - Add a "thumbsSpace" option which will accept % and px. e.g. ('5%','5px',5) - go hand in hand with thumbsWidth
+- Needs improvements to padding and borders calculations.
 
 Long term:
 - Add support for vertical thumbs

@@ -496,14 +496,16 @@
             controllers._thumbsChildren.eq(controllers.curSlideIndex).removeClass('slip-gallery-thumbs-slide-active');
             controllers._thumbsChildren.eq(controllers.newSlideIndex).addClass('slip-gallery-thumbs-slide-active');
 
+            var _firstThumb = controllers._thumbsChildren.eq(0);
+
             var thumbsContainerTWidth = controllers._thumbsContainer.width();
-            var thumbsChildrenWidth = controllers._thumbsChildren.eq(0).outerWidth(false);
+            var thumbsChildrenWidth = _firstThumb.outerWidth(false);
 
-            var thumbsVisible = Math.ceil(thumbsContainerTWidth / thumbsChildrenWidth);
+            var thumbsShown = (settings.thumbsShown >= 1) ? settings.thumbsShown : Math.ceil(thumbsContainerTWidth / thumbsChildrenWidth);
 
-            if (controllers._thumbsChildren.length > thumbsVisible)
+            if (controllers._thumbsChildren.length > thumbsShown)
             {
-                var maxThumbIndex = controllers._thumbsChildren.length - thumbsVisible;
+                var maxThumbIndex = controllers._thumbsChildren.length - thumbsShown;
 
                 if (maxThumbIndex > 0)
                 {

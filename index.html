@@ -17,6 +17,8 @@
         #thumbs2 .split {/*width:5px; float:left; height:1px;*/}
         #thumbs2 .slide {}
         #thumbs2 .slide img {width:100%;}
+
+        #thumbs3 .slide img {width:100%;}
     </style>
 </head>
 <body>
@@ -134,6 +136,34 @@
             <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
         </div>
     </div>
+    <div class="property-image" id="gallery3">
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+        </div>
+        <div class="slide">
+            <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+        </div>
+    </div>
+    <div class="row-fluid" id="thumbs3">
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+        </div>
+        <div class="span30 span-parent slide">
+            <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
@@ -156,6 +186,17 @@ $(function(){
         thumbsChildSelector:'.slide',
         thumbsShown: 5,
         thumbsWidth: '19.2%',
+        prevSelector:'#prev',
+        nextSelector:'#next',
+        autoLoop:false,
+        fade:true
+    });
+    $('#gallery3').SlipGallery({
+        mainChildSelector:'.slide',
+        thumbsContainerSelector:'#thumbs3',
+        thumbsChildSelector:'.slide',
+        thumbsShown: 3,
+        thumbsWidth: '32%',
         prevSelector:'#prev',
         nextSelector:'#next',
         autoLoop:false,
