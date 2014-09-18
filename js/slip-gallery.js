@@ -42,6 +42,12 @@
         obj.attr(attr,val);
     }
 
+    function roundDimension(d)
+    {
+        d = d || 0;
+        return Math.floor(d*2)/2;
+    }
+
     function load(controllers,settings)
     {
         if (controllers._slider && controllers._slider.length && controllers._sliderChildren && controllers._sliderChildren.length)
@@ -537,25 +543,37 @@
                     var _newThumb = controllers._thumbsChildren.eq(controllers.newSlideIndex);
                     var _lastThumb = controllers._thumbsChildren.eq(controllers._thumbsChildren.length-1);
 
-                    var newThumbPos = _newThumb.position();
-                    var lastThumbPos = _lastThumb.position();
-
                     var curLeft = Math.abs(controllers._thumbsWrap.position().left);
-                    var newLeft = newThumbPos.left;
-                    var maxLeft = (lastThumbPos.left+_lastThumb.outerWidth(false))-thumbsContainerTWidth;
+                    var newLeft = _newThumb.position().left-((thumbsContainerTWidth/2)-(_newThumb.outerWidth(false)/2));
+                    var maxLeft = (_lastThumb.position().left+_lastThumb.outerWidth(false))-(thumbsContainerTWidth);
 
-                    newLeft -= (thumbsContainerTWidth/2)-(_newThumb.outerWidth(false)/2);
+                    var last_x_i =  controllers._thumbsChildren.length-thumbsShown;
+                    if (last_x_i >= 0)
+                    {
+                        var last_x_pos = controllers._thumbsChildren.eq(last_x_i).position().left;
+                        if (maxLeft > last_x_pos-1 && maxLeft < last_x_pos+1)
+                        {
+                            maxLeft = last_x_pos;
+                        }
+                    }
 
-                    curLeft = Math.round(curLeft*10)/10;
-                    newLeft = Math.round(newLeft*10)/10;
-                    maxLeft = Math.round(maxLeft*10)/10;
+                    var first_x_i =  controllers.newSlideIndex-Math.floor(thumbsShown/2);
+                    if (first_x_i >= 0)
+                    {
+                        var first_x_pos = controllers._thumbsChildren.eq(first_x_i).position().left;
+                        if (newLeft > first_x_pos-1 && newLeft < first_x_pos+1)
+                        {
+                            newLeft = first_x_pos;
+                        }
+                    }
 
-                    if (newLeft < 0) newLeft = 0;
-                    if (newLeft > maxLeft) newLeft = maxLeft;
+                    //curLeft = roundDimension(curLeft);
+                    //newLeft = roundDimension(newLeft);
+                    //maxLeft = roundDimension(maxLeft);
 
-                    console.log(curLeft);
-                    console.log(newLeft);
-                    console.log("m"+maxLeft);
+                    if (newLeft < 1) newLeft = 0;
+                    if (newLeft > maxLeft-1) newLeft = maxLeft;
+
                     var leftVal = '';
 
                     if (curLeft != newLeft)

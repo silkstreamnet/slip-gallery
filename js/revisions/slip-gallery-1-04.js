@@ -42,6 +42,12 @@
         obj.attr(attr,val);
     }
 
+    function roundDimension(d)
+    {
+        d = d || 0;
+        return Math.floor(d*2)/2;
+    }
+
     function load(controllers,settings)
     {
         if (controllers._slider && controllers._slider.length && controllers._sliderChildren && controllers._sliderChildren.length)
@@ -527,51 +533,60 @@
             controllers._thumbsChildren.eq(controllers.curSlideIndex).removeClass('slip-gallery-thumbs-slide-active');
             controllers._thumbsChildren.eq(controllers.newSlideIndex).addClass('slip-gallery-thumbs-slide-active');
 
-            var _firstThumb = controllers._thumbsChildren.eq(0);
-
             var thumbsContainerTWidth = controllers._thumbsContainer.width();
-            var thumbsChildrenWidth = _firstThumb.outerWidth(false);
-
             var thumbsShown = (settings.thumbsShown >= 1) ? settings.thumbsShown : Math.ceil(thumbsContainerTWidth / thumbsChildrenWidth);
 
             if (controllers._thumbsChildren.length > thumbsShown)
             {
-                var maxThumbIndex = controllers._thumbsChildren.length - thumbsShown;
-
-                if (maxThumbIndex > 0)
+                if (controllers._thumbsChildren.length - thumbsShown > 0)
                 {
-                    var sp_offset = (thumbsContainerTWidth/2)-(thumbsChildrenWidth/2);
-
-                    var newSlideIndexC = controllers.newSlideIndex;
-
-                    var _newThumb = controllers._thumbsChildren.eq(newSlideIndexC);
+                    var _newThumb = controllers._thumbsChildren.eq(controllers.newSlideIndex);
                     var _lastThumb = controllers._thumbsChildren.eq(controllers._thumbsChildren.length-1);
 
-                    var newThumbPos = _newThumb.position();
-                    var lastThumbPos = _lastThumb.position();
-
-                    var newLeft = Math.abs(newThumbPos.left);
                     var curLeft = Math.abs(controllers._thumbsWrap.position().left);
-                    var maxLeft = (Math.abs(lastThumbPos.left)+_lastThumb.outerWidth(false))-thumbsContainerTWidth;
+                    var newLeft = _newThumb.position().left-((thumbsContainerTWidth/2)-(_newThumb.outerWidth(false)/2));
+                    var maxLeft = (_lastThumb.position().left+_lastThumb.outerWidth(false))-(thumbsContainerTWidth);
 
-                    newLeft -= sp_offset;
-                    if (newLeft < 0) newLeft = 0;
-                    if (newLeft > maxLeft) newLeft = maxLeft;
-
-                    var leftVal = '+=0px';
-
-                    if (curLeft > newLeft)
+                    var last_x_i =  controllers._thumbsChildren.length-thumbsShown;
+                    if (last_x_i >= 0)
                     {
-                        leftVal = '+='+(curLeft-newLeft)+'px';
-                    }
-                    else if (newLeft > curLeft)
-                    {
-                        leftVal = '-='+(newLeft-curLeft)+'px';
+                        var last_x_pos = controllers._thumbsChildren.eq(last_x_i).position().left;
+                        if (maxLeft > last_x_pos-1 && maxLeft < last_x_pos+1)
+                        {
+                            maxLeft = last_x_pos;
+                        }
                     }
 
-                    controllers._thumbsWrap.stop(true,false).animate({
-                        'left':leftVal
-                    },500);
+                    var first_x_i =  controllers.newSlideIndex-Math.floor(thumbsShown/2);
+                    if (first_x_i >= 0)
+                    {
+                        var first_x_pos = controllers._thumbsChildren.eq(first_x_i).position().left;
+                        if (newLeft > first_x_pos-1 && newLeft < first_x_pos+1)
+                        {
+                            newLeft = first_x_pos;
+                        }
+                    }
+
+                    //curLeft = roundDimension(curLeft);
+                    //newLeft = roundDimension(newLeft);
+                    //maxLeft = roundDimension(maxLeft);
+
+                    if (newLeft < 1) newLeft = 0;
+                    if (newLeft > maxLeft-1) newLeft = maxLeft;
+
+                    var leftVal = '';
+
+                    if (curLeft != newLeft)
+                    {
+                        leftVal = (-1*newLeft)+'px';
+                    }
+
+                    if (leftVal)
+                    {
+                        controllers._thumbsWrap.stop(true,false).animate({
+                            'left':leftVal
+                        },500);
+                    }
                 }
             }
         }

@@ -9,6 +9,7 @@ Change List
 - Removed fixHeight and fixWidth settings as they were redundant.
 - Added thumbsSpace setting.
 - Fixed width calculation when border/padding is applied to thumb element.
+- Solved the mega mystery of float division rendering. Manual fix used.
 
 === Version 1.03 ===
 - Fixed issue in Firefox where main image was not scaling correctly.
