@@ -18,7 +18,8 @@
         fx:'none',
         fxSpeed:400,
         autoLoop:true,
-        delay:3000
+        delay:3000,
+        preload:true //true/false or integer for number of images
     };
 
     $.fn.SlipGallery = function(options)
@@ -53,13 +54,26 @@
 
     function load(controllers,settings)
     {
-        if (controllers._slider && controllers._slider.length && controllers._sliderChildren && controllers._sliderChildren.length)
+        if (controllers._load_sliderChildren && controllers._load_sliderChildren.length && (settings.preload === true || settings.preload > 0))
         {
-            var images = controllers._sliderChildren.find('img');
+            var _load_sliderChildren = controllers._load_sliderChildren;
+            var _load_thumbsChildren = controllers._load_thumbsChildren;
+
+            if (settings.preload !== true && settings.preload > 0)
+            {
+                _load_sliderChildren.slice(0,settings.preload);
+            }
+
+            var images = _load_sliderChildren.find('img');
 
             if (controllers._load_thumbsChildren && controllers._load_thumbsChildren.length)
             {
-                images.add(controllers._load_thumbsChildren.find('img'));
+                if (settings.preload !== true && settings.preload > 0)
+                {
+                    _load_thumbsChildren.slice(0,settings.preload);
+                }
+
+                images.add(_load_thumbsChildren.find('img'));
             }
 
             var built = false;
@@ -124,16 +138,22 @@
 
     function build(controllers,settings)
     {
-        if (controllers && controllers._slider && controllers._slider.length && controllers._sliderChildren && controllers._sliderChildren.length && settings)
+        if (controllers._sliderContainer && controllers._sliderContainer.length)
         {
-            var _slider = controllers._slider;
-            var _sliderChildren = controllers._sliderChildren;
+            var _sliderContainer = controllers._sliderContainer;
+            var _sliderWrap = false;
+            var _sliderChildren = false;
             var _thumbsContainer = controllers._thumbsContainer;
             var _thumbsWrap = false;
             var _thumbsChildren = false;
             var _prevBtn = false;
             var _nextBtn = false;
             var thumbsReady = false;
+
+            _sliderContainer.addClass('slip-gallery-container');
+            _sliderContainer.wrapInner('<div class="slip-gallery-wrap"></div>');
+            _sliderWrap = _sliderContainer.find('.slip-gallery-wrap');
+            _sliderChildren = _sliderWrap.find(settings.mainChildSelector);
 
             if (_thumbsContainer && _thumbsContainer.length > 0)
             {
@@ -155,7 +175,6 @@
             }
 
             // _thumbsContainer, _thumbsWrap, _thumbsChildren
-
             if (thumbsReady)
             {
                 //APPLY CSS
@@ -184,14 +203,24 @@
             }
 
             //start sliding and apply listeners
-            // _slider, _sliderChildren, _thumbsContainer, _thumbsWrap, _thumbsChildren
+            // _sliderContainer, _sliderChildren, _thumbsContainer, _thumbsWrap, _thumbsChildren
 
             if (thumbsReady == false || (_sliderChildren.length == _thumbsChildren.length))
             {
-                _slider.css({
+
+                _sliderContainer.css({
                     'position':'relative',
-                    'display':'block'
-                }).addClass('slip-gallery');
+                    'display':'block',
+                    'overflow':'hidden'
+                });
+                _sliderWrap.css({
+                    'position':'absolute',
+                    'display':'block',
+                    'height':'100%',
+                    'width':'100%',
+                    'top':'0px',
+                    'left':'0px'
+                });
 
                 var _firstSlide = false;
 
@@ -225,7 +254,7 @@
                 });
 
                 var _sentinelSlide = $(outerHTML(_firstSlide));
-                _slider.prepend(_sentinelSlide);
+                _sliderContainer.prepend(_sentinelSlide);
 
                 _sentinelSlide.css({
                     'visibility':'hidden',
@@ -252,6 +281,8 @@
                     });
                 }
 
+                controllers._sliderWrap = _sliderWrap;
+                controllers._sliderChildren = _sliderChildren;
                 controllers._thumbsWrap = _thumbsWrap;
                 controllers._thumbsChildren = _thumbsChildren;
                 controllers._sentinelSlide = _sentinelSlide;
@@ -276,8 +307,10 @@
             _sliders.each(function(i){
 
                 var controllers = {
-                    _slider: $(this),
+                    _sliderContainer: $(this),
+                    _sliderWrap:false,
                     _sliderChildren: false,
+                    _load_sliderChildren:false,
                     _thumbsContainer: false,
                     _thumbsWrap: false,
                     _thumbsChildren: false,
@@ -290,15 +323,15 @@
                     timer:false
                 };
 
-                var _sliderChildren = false;
+                var _load_sliderChildren = false;
                 var _thumbsContainer = false;
                 var _load_thumbsChildren = false;
 
                 if (settings.mainChildSelector)
                 {
-                    _sliderChildren = controllers._slider.find(settings.mainChildSelector);
+                    _load_sliderChildren = controllers._sliderContainer.find(settings.mainChildSelector);
 
-                    if (_sliderChildren.length > 0)
+                    if (_load_sliderChildren.length > 0)
                     {
                         //thumbnails - thumbsContainerSelector, thumbsChildSelector are required
                         if (settings.thumbsContainerSelector && settings.thumbsChildSelector)
@@ -309,12 +342,18 @@
                             if (_thumbsContainer.length)
                             {
                                 _load_thumbsChildren = _thumbsContainer.find(settings.thumbsChildSelector);
+
+                                if (_load_thumbsChildren.length != _load_sliderChildren.length)
+                                {
+                                    _thumbsContainer = false;
+                                    _load_thumbsChildren = false;
+                                }
                             }
                         }
                     }
                 }
 
-                controllers._sliderChildren = _sliderChildren;
+                controllers._load_sliderChildren = _load_sliderChildren;
                 controllers._thumbsContainer = _thumbsContainer;
                 controllers._load_thumbsChildren = _load_thumbsChildren;
 
@@ -348,25 +387,32 @@
     function scaleContainers(controllers,settings)
     {
         var mainRatio = getRatio(settings.mainRatio);
-        if (mainRatio) controllers._slider.height(controllers._slider.width()*(mainRatio.height/mainRatio.width));
+        if (mainRatio) controllers._sliderContainer.height(controllers._sliderContainer.width()*(mainRatio.height/mainRatio.width));
 
-        var _firstThumbsChild = controllers._thumbsChildren.eq(0);
+        controllers._sliderWrap.width((controllers._sliderContainer.width()*controllers._sliderChildren.length)+10);
+        controllers._sliderChildren.width(controllers._sliderContainer.width());
+        controllers._sliderChildren.height(controllers._sliderContainer.height());
 
-        controllers._thumbsWrap.css({
-            'min-height':_firstThumbsChild.outerHeight(false),
-            'min-width':_firstThumbsChild.outerWidth(false),
-            'position':'static'
-        });
+        if (controllers._thumbsContainer && controllers._thumbsChildren)
+        {
+            var _firstThumbsChild = controllers._thumbsChildren.eq(0);
 
-        controllers._thumbsContainer.css({
-            'width':'',
-            'height':''
-        });
+            controllers._thumbsWrap.css({
+                'min-height':_firstThumbsChild.outerHeight(false),
+                'min-width':_firstThumbsChild.outerWidth(false),
+                'position':'static'
+            });
 
-        controllers._thumbsContainer.width(controllers._thumbsContainer.width());
-        controllers._thumbsContainer.height(controllers._thumbsContainer.height());
+            controllers._thumbsContainer.css({
+                'width':'',
+                'height':''
+            });
 
-        controllers._thumbsWrap.css('position','absolute');
+            controllers._thumbsContainer.width(controllers._thumbsContainer.width());
+            controllers._thumbsContainer.height(controllers._thumbsContainer.height());
+
+            controllers._thumbsWrap.css('position','absolute');
+        }
     }
 
     function scaleThumbs(controllers,settings)
