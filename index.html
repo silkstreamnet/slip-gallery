@@ -20,11 +20,12 @@
 
         #thumbs2 {}
         #thumbs2 .slide {border:1px solid #000;}
-        #thumbs2 .slide img {width:100%;}
+        #thumbs2 .slide img {width:100%; display:block;}
+        #thumbs2 .slide.slip-gallery-thumbs-slide-active {border: 1px solid #00f;}
 
         #thumbs3 {}
         #thumbs3 .slide {text-align:center;border:1px solid #000;}
-        #thumbs3 .slide img {width:100%; display:inline-block;}
+        #thumbs3 .slide img {width:100%; display:block;}
     </style>
 </head>
 <body>
@@ -185,7 +186,7 @@ $(function(){
         nextSelector:'#next',
         mainRatio:'530x350',
         autoLoop:false,
-        fade:true
+        fx:'fade'
 	});
     $('#gallery2').SlipGallery({
         mainChildSelector:'.slide',
@@ -196,7 +197,7 @@ $(function(){
         prevSelector:'#prev',
         nextSelector:'#next',
         autoLoop:false,
-        fade:true
+        fx:'fade'
     });
     $('#gallery3').SlipGallery({
         mainChildSelector:'.slide',
@@ -206,8 +207,7 @@ $(function(){
         thumbsWidth: '30%',
         prevSelector:'#prev',
         nextSelector:'#next',
-        autoLoop:false,
-        fade:true
+        autoLoop:false
     });
 });
 </script>

@@ -15,7 +15,8 @@
         thumbsRatio:'auto',
         prevSelector:'',
         nextSelector:'',
-        fade:false,
+        fx:'none',
+        fxSpeed:400,
         autoLoop:true,
         delay:3000
     };
@@ -637,17 +638,24 @@
                 'z-index':'1'
             }).stop(true,true);
 
-            if (settings.fade)
+            switch (settings.fx)
             {
-                _curSlide.show();
-                _newSlide.hide().fadeIn(400,function(){
+                case 'fade':
+                    _curSlide.show();
+                    _newSlide.hide().fadeIn(settings.fxSpeed,function(){
+                        _curSlide.hide();
+                    });
+                    break;
+                case 'hrzScroll':
+
+                    break;
+                case 'vrtScroll':
+
+                    break;
+                default:
+                    _newSlide.show();
                     _curSlide.hide();
-                });
-            }
-            else
-            {
-                _newSlide.show();
-                _curSlide.hide();
+                    break;
             }
 
             _newSlide.addClass('slip-gallery-slide-active');
