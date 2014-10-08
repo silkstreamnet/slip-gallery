@@ -790,14 +790,32 @@
                     break;
                 case 'hrzScroll':
                     var containerWidth = controllers._sliderContainer.width();
+                    var containerFWidth = controllers._sliderContainer.outerWidth(false);
                     var sentinelOffset = controllers._sentinelSlide.position();
+                    var sliderWrapLeft = controllers._sliderWrap.position().left;
 
-                    var curLeft = Math.abs(controllers._sliderWrap.position().left);
+                    var curLeft = Math.abs(sliderWrapLeft);
                     var newLeft = _newSlide.position().left-((containerWidth/2)-(_newSlide.outerWidth(false)/2));
-                    var maxLeft = ((_lastSlide.position().left+_lastSlide.outerWidth(false))-containerWidth);
+                    //var maxLeft = ((_lastSlide.position().left+_lastSlide.outerWidth(false))-containerWidth);
+
+                    if (controllers.newSlideIndex > controllers._sliderChildren.length/2)
+                    {
+                        //use clone
+                        if (sliderWrapLeft+1 >= sentinelOffset.left)
+                        {
+                            newLeft -= (controllers._sliderWrap.width());
+                        }
+                    }
+                    else
+                    {
+                        //use original
+                        //if (sliderWrapLeft-1 <)
+                    }
 
                     //if (newLeft < -sentinelOffset.left+1) newLeft = -sentinelOffset.left;
                     //if (newLeft > maxLeft-1) newLeft = maxLeft;
+
+                    newLeft -= sentinelOffset.left;
 
                     var leftVal = '';
                     var leftValClone = '';
