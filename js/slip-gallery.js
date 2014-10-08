@@ -66,6 +66,18 @@
 
             var images = _load_sliderChildren.find('img');
 
+            _load_sliderChildren.each(function(){
+                var _child = $(this);
+                if (getAttr(_child,'src'))
+                {
+                    images.add(_child);
+                }
+                else
+                {
+                    images.add(_child.find('img'));
+                }
+            });
+
             if (controllers._load_thumbsChildren && controllers._load_thumbsChildren.length)
             {
                 if (settings.preload !== true && settings.preload > 0)
@@ -73,7 +85,17 @@
                     _load_thumbsChildren.slice(0,settings.preload);
                 }
 
-                images.add(_load_thumbsChildren.find('img'));
+                _load_thumbsChildren.each(function(){
+                    var _child = $(this);
+                    if (getAttr(_child,'src'))
+                    {
+                        images.add(_child);
+                    }
+                    else
+                    {
+                        images.add(_child.find('img'));
+                    }
+                });
             }
 
             var built = false;
@@ -86,20 +108,12 @@
                     {
                         var _img = $(this);
                         var nimg = new Image();
-                        nimg.src = _img.attr('src');
-                        setTimeout(function(){
-                            if (nimg.complete)
-                            {
-                                imagesloaded++;
-                                if (imagesloaded == images.length)
-                                {
-                                    build(controllers,settings);
-                                    built = true;
-                                }
-                            }
-                            else
-                            {
-                                nimg.onload = function()
+                        var src = getAttr(_img,'src');
+                        if (src)
+                        {
+                            nimg.src = src;
+                            setTimeout(function(){
+                                if (nimg.complete)
                                 {
                                     imagesloaded++;
                                     if (imagesloaded == images.length)
@@ -107,9 +121,21 @@
                                         build(controllers,settings);
                                         built = true;
                                     }
-                                };
-                            }
-                        },1);
+                                }
+                                else
+                                {
+                                    nimg.onload = function()
+                                    {
+                                        imagesloaded++;
+                                        if (imagesloaded == images.length)
+                                        {
+                                            build(controllers,settings);
+                                            built = true;
+                                        }
+                                    };
+                                }
+                            },1);
+                        }
                     }
                 });
             }
@@ -142,6 +168,7 @@
         {
             var _sliderContainer = controllers._sliderContainer;
             var _sliderWrap = false;
+            var _sliderWrapClone = false;
             var _sliderChildren = false;
             var _thumbsContainer = controllers._thumbsContainer;
             var _thumbsWrap = false;
@@ -217,9 +244,7 @@
                     'position':'absolute',
                     'display':'block',
                     'height':'100%',
-                    'width':'100%',
-                    'top':'0px',
-                    'left':'0px'
+                    'width':'100%'
                 });
 
                 var _firstSlide = false;
@@ -229,23 +254,37 @@
                     var _sliderChild = $(this);
 
                     _sliderChild.css({
-                        'position':'absolute',
                         'left':'0px',
                         'top':'0px',
                         'width':'100%',
-                        'height':'100%'
+                        'height':'100%',
+                        'display':'block'
                     });
+
+                    if (settings.fx == 'hrzScroll' || settings.fx == 'vrtScroll')
+                    {
+                        _sliderChild.css({
+                            'position':'relative',
+                            'float':'left'
+                        });
+                    }
+                    else
+                    {
+                        _sliderChild.hide().css({
+                            'position':'absolute'
+                        });
+                    }
 
                     if (i == 0)
                     {
                         _firstSlide = _sliderChild;
-                        _sliderChild.css({
+                        _sliderChild.show().css({
                             'z-index':'2'
                         }).addClass('slip-gallery-slide-active');
                     }
                     else
                     {
-                        _sliderChild.hide().css({
+                        _sliderChild.css({
                             'z-index':'1'
                         });
                     }
@@ -281,7 +320,11 @@
                     });
                 }
 
+                _sliderWrapClone = _sliderWrap.clone().removeClass('slip-gallery-wrap').addClass('slip-gallery-wrap-clone');
+                _sliderWrap.before(_sliderWrapClone);
+
                 controllers._sliderWrap = _sliderWrap;
+                controllers._sliderWrapClone = _sliderContainer.find('.slip-gallery-wrap-clone');
                 controllers._sliderChildren = _sliderChildren;
                 controllers._thumbsWrap = _thumbsWrap;
                 controllers._thumbsChildren = _thumbsChildren;
@@ -309,6 +352,7 @@
                 var controllers = {
                     _sliderContainer: $(this),
                     _sliderWrap:false,
+                    _sliderWrapClone:false,
                     _sliderChildren: false,
                     _load_sliderChildren:false,
                     _thumbsContainer: false,
@@ -364,6 +408,8 @@
 
     function initScale(controllers,settings)
     {
+        scaleContainers(controllers,settings);
+        scaleSlides(controllers,settings);
         scaleThumbs(controllers,settings);
         scaleContainers(controllers,settings);
     }
@@ -387,11 +433,25 @@
     function scaleContainers(controllers,settings)
     {
         var mainRatio = getRatio(settings.mainRatio);
-        if (mainRatio) controllers._sliderContainer.height(controllers._sliderContainer.width()*(mainRatio.height/mainRatio.width));
+        if (mainRatio)
+        {
+            var newContainerHeight = controllers._sliderContainer.width()*(mainRatio.height/mainRatio.width);
+            controllers._sliderContainer.height(newContainerHeight);
+        }
 
-        controllers._sliderWrap.width((controllers._sliderContainer.width()*controllers._sliderChildren.length)+10);
-        controllers._sliderChildren.width(controllers._sliderContainer.width());
-        controllers._sliderChildren.height(controllers._sliderContainer.height());
+        var newWrapWidth = (controllers._sliderContainer.width()*controllers._sliderChildren.length)+10;
+        var newWrapOffset = controllers._sentinelSlide.position();
+
+        controllers._sliderWrap.width(newWrapWidth);
+        controllers._sliderWrapClone.width(newWrapWidth);
+        controllers._sliderWrap.css({
+            top:newWrapOffset.top+'px',
+            left:newWrapOffset.left+'px'
+        });
+        controllers._sliderWrapClone.css({
+            top:newWrapOffset.top+'px',
+            left:(-newWrapWidth+newWrapOffset.left)+'px'
+        });
 
         if (controllers._thumbsContainer && controllers._thumbsChildren)
         {
@@ -403,16 +463,46 @@
                 'position':'static'
             });
 
-            controllers._thumbsContainer.css({
-                'width':'',
-                'height':''
-            });
-
+            controllers._thumbsContainer.css({'width':'','height':''});
             controllers._thumbsContainer.width(controllers._thumbsContainer.width());
             controllers._thumbsContainer.height(controllers._thumbsContainer.height());
 
+            controllers._thumbsWrap.width(((controllers._thumbsContainer.width()/settings.thumbsShown)+10)*controllers._thumbsChildren.length);
             controllers._thumbsWrap.css('position','absolute');
         }
+    }
+
+    function scaleSlides(controllers,settings)
+    {
+        var mainRatio = getRatio(settings.mainRatio);
+
+        var newwidth = controllers._sliderContainer.width();
+        var newheight = controllers._sliderContainer.height();
+
+        if (mainRatio)
+        {
+            var widthdiff = mainRatio.width/newwidth;
+            var heightdiff = mainRatio.height/newheight;
+
+            if (widthdiff >= heightdiff)
+            {
+                newwidth = controllers._sliderContainer.height()*(mainRatio.width/mainRatio.height);
+            }
+            else
+            {
+                newheight = controllers._sliderContainer.width() * (mainRatio.height / mainRatio.width);
+            }
+        }
+
+        controllers._sliderChildren.width(newwidth);
+        controllers._sliderChildren.height(newheight);
+
+        updateSliderWrapClone(controllers,settings);
+    }
+
+    function updateSliderWrapClone(controllers,settings)
+    {
+        controllers._sliderWrapClone.html(controllers._sliderWrap.html());
     }
 
     function scaleThumbs(controllers,settings)
@@ -499,15 +589,19 @@
             controllers._sliderChildren
                 .stop(true,true)
                 .removeClass('slip-gallery-slide-active')
-                .hide()
                 .css('z-index','1');
 
             //add active class to 0
             controllers._sliderChildren.eq(0)
                 .stop(true,true)
                 .addClass('slip-gallery-slide-active')
-                .show()
                 .css('z-index','2');
+
+            if (settings.fx != 'hrzScroll' && settings.fx != 'vrtScroll')
+            {
+                controllers._sliderChildren.hide();
+                controllers._sliderChildren.eq(0).show();
+            }
 
             if (controllers._thumbsContainer && controllers._thumbsWrap && controllers._thumbsChildren)
             {
@@ -524,6 +618,7 @@
             }
         }
         resetTimer(controllers,settings);
+        updateSliderWrapClone(controllers,settings);
     }
 
     function addListeners(controllers,settings)
@@ -564,8 +659,10 @@
                 controllers.resizeCheck = true;
                 setTimeout(function(){
                     scaleContainers(controllers,settings);
+                    scaleSlides(controllers,settings);
                     scaleThumbs(controllers,settings);
                     scaleContainers(controllers,settings);
+
                     resetSlides(controllers,settings);
                     controllers.resizeCheck = false;
                 },100);
@@ -676,6 +773,7 @@
 
             var _newSlide = controllers._sliderChildren.eq(controllers.newSlideIndex);
             var _curSlide = controllers._sliderChildren.eq(controllers.curSlideIndex);
+            var _lastSlide = controllers._sliderChildren.eq(controllers._sliderChildren.length-1);
 
             _newSlide.css({
                 'z-index':'2'
@@ -687,13 +785,40 @@
             switch (settings.fx)
             {
                 case 'fade':
-                    _curSlide.show();
-                    _newSlide.hide().fadeIn(settings.fxSpeed,function(){
-                        _curSlide.hide();
-                    });
+                    _curSlide.show().fadeOut(settings.fxSpeed);
+                    _newSlide.hide().fadeIn(settings.fxSpeed);
                     break;
                 case 'hrzScroll':
+                    var containerWidth = controllers._sliderContainer.width();
+                    var sentinelOffset = controllers._sentinelSlide.position();
 
+                    var curLeft = Math.abs(controllers._sliderWrap.position().left);
+                    var newLeft = _newSlide.position().left-((containerWidth/2)-(_newSlide.outerWidth(false)/2));
+                    var maxLeft = ((_lastSlide.position().left+_lastSlide.outerWidth(false))-containerWidth);
+
+                    //if (newLeft < -sentinelOffset.left+1) newLeft = -sentinelOffset.left;
+                    //if (newLeft > maxLeft-1) newLeft = maxLeft;
+
+                    var leftVal = '';
+                    var leftValClone = '';
+
+                    if (curLeft != newLeft)
+                    {
+                        leftVal = (-1*newLeft)+'px';
+                        leftValClone = ((-1*newLeft)-controllers._sliderWrapClone.width())+'px';
+                        //leftVal = (newLeft)+'px';
+                        //leftValClone = ((newLeft)-controllers._sliderWrapClone.width())+'px';
+                    }
+
+                    if (leftVal)
+                    {
+                        controllers._sliderWrap.stop(true,false).animate({
+                            'left':leftVal
+                        },settings.fxSpeed);
+                        controllers._sliderWrapClone.stop(true,false).animate({
+                            'left':leftValClone
+                        },settings.fxSpeed);
+                    }
                     break;
                 case 'vrtScroll':
 
@@ -716,6 +841,7 @@
         controllers.newSlideIndex = false;
         controllers.curSlideIndex = false;
         resetTimer(controllers,settings);
+        updateSliderWrapClone(controllers,settings);
     }
 
     function nextSlide(controllers,settings)
