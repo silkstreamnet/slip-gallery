@@ -9,8 +9,8 @@
         #container {width:100%; margin: 0 auto;}
 
         #gallery {width:60%; padding:0 20%;}
-        #gallery {display:block; float:left; text-align:center;}
-        #gallery div img {vertical-align:middle; max-width:100%; max-height:100%;}
+        #gallery .slide {display:block; float:left; text-align:center; width:auto !important; margin:0 auto;}
+        #gallery .slide img {vertical-align:middle; padding: 0 3px; width:auto;}
     </style>
 </head>
 <body>
@@ -46,9 +46,9 @@ $(function(){
 		mainChildSelector:'>.slide',
         prevSelector:'#prev',
         nextSelector:'#next',
-        mainRatio:'404x520',
         autoLoop:false,
-        fx:'hrzScroll'
+        fx:'hrzScroll',
+        fxSpeed:400
 	});
 });
 </script>

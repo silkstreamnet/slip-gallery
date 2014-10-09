@@ -302,6 +302,7 @@
                     'z-index':'0',
                     'left':'',
                     'top':'',
+                    'float':'',
                     'height':'auto'
                 }).removeClass('slip-gallery-slide slip-gallery-slide-active').addClass('slip-gallery-sentinel');
 
@@ -364,6 +365,7 @@
                     _nextBtn: false,
                     newSlideIndex: false,
                     curSlideIndex: false,
+                    slideChangeDirection: 0,
                     timer:false
                 };
 
@@ -442,6 +444,8 @@
         var newWrapWidth = (controllers._sliderContainer.width()*controllers._sliderChildren.length)+10;
         var newWrapOffset = controllers._sentinelSlide.position();
 
+        var maxLeft = controllers._sliderChildren.last().position().left+controllers._sliderChildren.last().outerWidth(false);
+
         controllers._sliderWrap.width(newWrapWidth);
         controllers._sliderWrapClone.width(newWrapWidth);
         controllers._sliderWrap.css({
@@ -450,7 +454,7 @@
         });
         controllers._sliderWrapClone.css({
             top:newWrapOffset.top+'px',
-            left:(-newWrapWidth+newWrapOffset.left)+'px'
+            left:(-maxLeft+newWrapOffset.left)+'px'
         });
 
         if (controllers._thumbsContainer && controllers._thumbsChildren)
@@ -789,52 +793,52 @@
                     _newSlide.hide().fadeIn(settings.fxSpeed);
                     break;
                 case 'hrzScroll':
-                    var containerWidth = controllers._sliderContainer.width();
-                    var containerFWidth = controllers._sliderContainer.outerWidth(false);
                     var sentinelOffset = controllers._sentinelSlide.position();
-                    var sliderWrapLeft = controllers._sliderWrap.position().left;
+                    var sliderWrapPos = controllers._sliderWrap.position();
+                    var slidesTotalWidth = _lastSlide.position().left+_lastSlide.outerWidth(false);
+                    var maxLeft = (slidesTotalWidth/2)+sentinelOffset.left;
+                    var minLeft = maxLeft-slidesTotalWidth;
 
-                    var curLeft = Math.abs(sliderWrapLeft);
-                    var newLeft = _newSlide.position().left-((containerWidth/2)-(_newSlide.outerWidth(false)/2));
-                    //var maxLeft = ((_lastSlide.position().left+_lastSlide.outerWidth(false))-containerWidth);
+                    var newLeft = (_newSlide.position().left-sentinelOffset.left)*-1;
+                    var fnewLeft = newLeft;
 
-                    if (controllers.newSlideIndex > controllers._sliderChildren.length/2)
+                    if (controllers.newSlideIndex > controllers._sliderChildren.length / 2)
                     {
-                        //use clone
-                        if (sliderWrapLeft+1 >= sentinelOffset.left)
+                        fnewLeft += slidesTotalWidth;
+
+                        if (sliderWrapPos.left < sentinelOffset.left)
                         {
-                            newLeft -= (controllers._sliderWrap.width());
+                            controllers._sliderWrap.stop(true,false).css({
+                                'left':'+='+(slidesTotalWidth)+'px'
+                            });
+                            controllers._sliderWrapClone.stop(true,false).css({
+                                'left':'+='+(slidesTotalWidth)+'px'
+                            });
                         }
                     }
-                    else
+                    else if (controllers.slideChangeDirection < 1 || controllers.newSlideIndex > controllers.curSlideIndex)
                     {
-                        //use original
-                        //if (sliderWrapLeft-1 <)
+                        if (sliderWrapPos.left > sentinelOffset.left)
+                        {
+                            controllers._sliderWrap.stop(true,false).css({
+                                'left':'-='+(slidesTotalWidth)+'px'
+                            });
+                            controllers._sliderWrapClone.stop(true,false).css({
+                                'left':'-='+(slidesTotalWidth)+'px'
+                            });
+                        }
                     }
 
-                    //if (newLeft < -sentinelOffset.left+1) newLeft = -sentinelOffset.left;
-                    //if (newLeft > maxLeft-1) newLeft = maxLeft;
+                    //console.log(newLeft);
+                    //console.log(minLeft);
 
-                    newLeft -= sentinelOffset.left;
-
-                    var leftVal = '';
-                    var leftValClone = '';
-
-                    if (curLeft != newLeft)
-                    {
-                        leftVal = (-1*newLeft)+'px';
-                        leftValClone = ((-1*newLeft)-controllers._sliderWrapClone.width())+'px';
-                        //leftVal = (newLeft)+'px';
-                        //leftValClone = ((newLeft)-controllers._sliderWrapClone.width())+'px';
-                    }
-
-                    if (leftVal)
+                    if (sliderWrapPos.left != fnewLeft)
                     {
                         controllers._sliderWrap.stop(true,false).animate({
-                            'left':leftVal
+                            'left':fnewLeft+'px'
                         },settings.fxSpeed);
                         controllers._sliderWrapClone.stop(true,false).animate({
-                            'left':leftValClone
+                            'left':(fnewLeft-slidesTotalWidth)+'px'
                         },settings.fxSpeed);
                     }
                     break;
@@ -858,6 +862,7 @@
 
         controllers.newSlideIndex = false;
         controllers.curSlideIndex = false;
+        controllers.slideChangeDirection = 0;
         resetTimer(controllers,settings);
         updateSliderWrapClone(controllers,settings);
     }
@@ -879,6 +884,7 @@
 
             controllers.curSlideIndex = curSlideIndex;
             controllers.newSlideIndex = newSlideIndex;
+            controllers.slideChangeDirection = 1;
             changeSlide(controllers,settings);
         }
     }
@@ -900,6 +906,7 @@
 
             controllers.curSlideIndex = curSlideIndex;
             controllers.newSlideIndex = newSlideIndex;
+            controllers.slideChangeDirection = -1;
             changeSlide(controllers,settings);
         }
     }
