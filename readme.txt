@@ -19,9 +19,11 @@ How To Use
     thumbsRatio:'auto'              // Accepts '{width:number}x{height:number}', 'auto'
     prevSelector:''                 // Define the jQuery selector for the your Previous Slide button.
     nextSelector:''                 // Define the jQuery selector for the your Next Slide button.
-    fade:false                      // Set to true to enable fade effect otherwise false for immediate change (this may change to fx in the future)
+    fx:'none'                       // Accepts 'fade','none'
+    fxSpeed:400                     // Accepts integer
     autoLoop:true                   // Set to true to loop through the slides automatically otherwise false to disable auto looping
     delay:3000                      // Set the delay for auto looping
+    preload:true                    // Accepts boolean true/false for all/none or integer for number of slides
 
 View index.html for example code.
 
@@ -45,6 +47,7 @@ Stable:
 - None
 
 Unstable:
+- 1-06
 - 1-05
 - 1-04
 - 1-03

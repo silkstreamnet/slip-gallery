@@ -4,6 +4,16 @@ slip-gallery.js
 Change List
 @@@@@@@@@@@
 
+=== Version 1.06 ===
+- Fixed error/warning thrown when a gallery has only one slide.
+- Added more functionality/flexibility for preloading.
+- Modified scaling system.
+- Added "fx" setting. Supports 'none' or 'fade'.
+- Added "fxSpeed" setting.
+- Added "preload" settings.
+- Removed "fade" setting.
+- Various changes to gallery preparation.
+
 === Version 1.05 ===
 - Tweaks to proportion functionality.
 - Added thumbsRatio setting.

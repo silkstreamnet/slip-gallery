@@ -202,9 +202,6 @@
                 if (thumbsReady)
                 {
                     //APPLY CSS
-                    //_thumbsContainer.height(_thumbsContainer.height());
-                    //_thumbsContainer.width(_thumbsContainer.width());
-
                     _thumbsContainer.css({
                         'display':'block',
                         'position':'relative',
@@ -449,7 +446,6 @@
             if (settings.thumbsContainerHeight > 0) controllers._thumbsContainer.height(settings.thumbsContainerHeight);
             else controllers._thumbsContainer.height(newTContainerHeight);
 
-            //controllers._thumbsWrap.width((((controllers._thumbsContainer.width()/settings.thumbsShown)+1)*controllers._thumbsChildren.length)+lastSpaceMargin);
             controllers._thumbsWrap.width(newWrapWidth+5);
             controllers._thumbsWrap.height(newWrapHeight+5);
             controllers._thumbsWrap.css('position','relative');
@@ -708,10 +704,6 @@
                             newLeft = first_x_pos;
                         }
                     }
-
-                    //curLeft = roundDimension(curLeft);
-                    //newLeft = roundDimension(newLeft);
-                    //maxLeft = roundDimension(maxLeft);
 
                     if (newLeft < 1) newLeft = 0;
                     if (newLeft > maxLeft-1) newLeft = maxLeft;
