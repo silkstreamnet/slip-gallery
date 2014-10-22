@@ -24,6 +24,7 @@ How To Use
     autoLoop:true                   // Set to true to loop through the slides automatically otherwise false to disable auto looping
     delay:3000                      // Set the delay for auto looping
     preload:true                    // Accepts boolean true/false for all/none or integer for number of slides
+    onReady:false                   // Accepts a function definition.
 
 View index.html for example code.
 
@@ -47,6 +48,7 @@ Stable:
 - None
 
 Unstable:
+- 1-07
 - 1-06
 - 1-05
 - 1-04

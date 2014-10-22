@@ -4,6 +4,9 @@ slip-gallery.js
 Change List
 @@@@@@@@@@@
 
+=== Version 1.07 ===
+- Added onReady event.
+
 === Version 1.06 ===
 - Fixed error/warning thrown when a gallery has only one slide.
 - Added more functionality/flexibility for preloading.

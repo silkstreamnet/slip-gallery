@@ -197,7 +197,10 @@ $(function(){
         prevSelector:'#prev',
         nextSelector:'#next',
         autoLoop:false,
-        fx:'fade'
+        fx:'fade',
+        onReady:function(){
+            console.log("Gallery 2 is ready!");
+        }
     });
     $('#gallery3').SlipGallery({
         mainChildSelector:'.slide',
