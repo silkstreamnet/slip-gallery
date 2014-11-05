@@ -33,10 +33,6 @@ View index.html for example code.
 Things to Add
 @@@@@@@@@@@@@
 
-Short term:
-- Need to add an option to set how many images should be preloaded. Would need to separate thumbs and slides to make sure both get preloaded by the total count. e.g. "3" would load 3 slides and 3 thumbs.
-
-Long term:
 - Add support for vertical thumbs
 
 
