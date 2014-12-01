@@ -42,17 +42,6 @@
         return attrval;
     }
 
-    function setAttr(obj,attr,val)
-    {
-        obj.attr(attr,val);
-    }
-
-    function roundDimension(d)
-    {
-        d = d || 0;
-        return Math.floor(d*2)/2;
-    }
-
     function load(controllers,settings)
     {
         if (controllers._load_sliderChildren && controllers._load_sliderChildren.length && (settings.preload === true || settings.preload > 0))
