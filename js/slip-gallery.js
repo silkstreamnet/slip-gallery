@@ -758,10 +758,15 @@
                     _curSlide.show().fadeOut(settings.fxSpeed);
                     _newSlide.hide().fadeIn(settings.fxSpeed);
                     break;
+                case 'slide':
                 case 'hrzSlide':
 
                     break;
                 case 'vrtSlide':
+
+                    break;
+                case 'carousel':
+                case 'hrzCarousel':
 
                     break;
                 default:
