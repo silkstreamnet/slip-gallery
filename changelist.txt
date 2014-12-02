@@ -4,6 +4,9 @@ slip-gallery.js
 Change List
 @@@@@@@@@@@
 
+=== Version 1.08 NOT YET COMPILED ===
+- data attributes were not correctly working on multiple element definitions.
+
 === Version 1.07 ===
 - Added onReady event.
 

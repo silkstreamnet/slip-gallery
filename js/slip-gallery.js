@@ -137,13 +137,13 @@
         }
     }
 
-    function dataOverride(_sliders,settings)
+    function dataOverride(_slider,settings)
     {
         for (var i in defaults)
         {
             if (defaults.hasOwnProperty(i))
             {
-                var attr = getAttr(_sliders,'data-'+i);
+                var attr = getAttr(_slider,'data-'+i);
                 if (attr)
                 {
                     settings[i] = attr;
@@ -314,12 +314,13 @@
     {
         if (settings && _sliders && _sliders.length > 0)
         {
-            dataOverride(_sliders,settings);
-
             _sliders.each(function(i){
 
+                var $this = $(this);
+                dataOverride($this,settings);
+
                 var controllers = {
-                    _sliderContainer: $(this),
+                    _sliderContainer: $this,
                     _sliderChildren: false,
                     _load_sliderChildren:false,
                     _thumbsContainer: false,
