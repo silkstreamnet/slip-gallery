@@ -34,6 +34,8 @@ Things to Add
 @@@@@@@@@@@@@
 
 - Add support for vertical thumbs
+- sort out padding on slide and img (possibly due to content-box css)
+- allow any proportion image in gallery and thumbs (add new setting "scaleMode": "fit" or "crop") default "fit"
 
 
 @@@@@@@@
