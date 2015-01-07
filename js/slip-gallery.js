@@ -577,7 +577,7 @@
             {
                 controllers._thumbsWrap
                     .stop(true,true)
-                    .css('left','0px');
+                    .css({'left':'0px','top':'0px'});
 
                 controllers._thumbsChildren
                     .removeClass('slip-gallery-thumbs-slide-active');
@@ -743,7 +743,6 @@
 
             var _newSlide = controllers._sliderChildren.eq(controllers.newSlideIndex);
             var _curSlide = controllers._sliderChildren.eq(controllers.curSlideIndex);
-            var _lastSlide = controllers._sliderChildren.eq(controllers._sliderChildren.length-1);
 
             _newSlide.css({
                 'z-index':'2'
