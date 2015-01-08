@@ -6,7 +6,13 @@
         body {background:#eee;}
         img {padding:0; margin:0; max-width:100%; height:auto;}
 
-        #container {max-width:730px; width:100%; margin: 0 auto;}
+        #container {width:100%; margin: 0 auto;}
+        .row {width:100%; padding: 0 0 30px 0; margin:0 0 30px 0; border-bottom:1px solid #333;}
+        .section {width:48%;float:left;}
+        .push {width:4%;float:left; height:1px;}
+        .clearfix {clear:both;}
+
+        #actions {right:10px; top:10px; position: fixed; background:#fff; z-index:999;}
 
         #gallery .slide div {display:table; text-align:center; width:100%; height:100%;}
         #gallery .slide div span {display:table-cell; text-align:center; vertical-align:middle;}
@@ -29,154 +35,230 @@
         #thumbs3 {}
         #thumbs3 .slide {text-align:center;border:1px solid #000;}
         #thumbs3 .slide img {width:100%; display:block;}
+
+        #gallery4 {width:75%;}
+        #thumbs4 {height:300px; width:25%; float:right;}
+        #thumbs4 .slide {border:1px solid #000;}
+        #thumbs4 .slide img {width:auto; height:100%; display:block;}
+        #thumbs4 .slide.slip-gallery-thumbs-slide-active {border: 1px solid #00f;}
     </style>
 </head>
 <body>
+<div id="actions">
+    <a id="prev" href="javascript:void(0)">Prev</a>
+    <a id="next" href="javascript:void(0)">Next</a>
+</div>
 <div id="container">
-<div class="property-image" id="gallery">
-    <div class="slide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530"></span></div>
+    <div class="row">
+        <div class="section">
+            <div class="property-image" id="gallery">
+                <div class="slide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530"></span></div>
+                </div>
+                <div class="slide hide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530"></span></div>
+                </div>
+                <div class="slide hide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530"></span></div>
+                </div>
+                <div class="slide hide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530"></span></div>
+                </div>
+                <div class="slide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530"></span></div>
+                </div>
+                <div class="slide hide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530"></span></div>
+                </div>
+                <div class="slide hide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530"></span></div>
+                </div>
+                <div class="slide hide">
+                    <div><span><img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530"></span></div>
+                </div>
+            </div>
+            <div id="thumbs">
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+                </div>
+                <div class="span5 span-parent split"></div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+                </div>
+                <div class="span5 span-parent split"></div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+                </div>
+                <div class="span5 span-parent split"></div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+                </div>
+                <div class="span5 span-parent split"></div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+                </div>
+                <div class="span5 span-parent split"></div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+                </div>
+                <div class="span5 span-parent split"></div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+                </div>
+                <div class="span5 span-parent split"></div>
+                <div class="span30 span-parent slide hide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+                </div>
+            </div>
+        </div>
+        <div class="push"></div>
+        <div class="section">
+            <div class="property-image" id="gallery2">
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+                </div>
+            </div>
+            <div id="thumbs2">
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
     </div>
-    <div class="slide hide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530"></span></div>
-    </div>
-    <div class="slide hide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530"></span></div>
-    </div>
-    <div class="slide hide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530"></span></div>
-    </div>
-    <div class="slide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530"></span></div>
-    </div>
-    <div class="slide hide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530"></span></div>
-    </div>
-    <div class="slide hide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530"></span></div>
-    </div>
-    <div class="slide hide">
-        <div><span><img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530"></span></div>
-    </div>
-</div>
-<div class="row-fluid" id="thumbs">
-    <div class="span30 span-parent slide">
-        <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
-    </div>
-    <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide">
-        <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
-    </div>
-    <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide">
-        <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
-    </div>
-    <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide">
-        <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
-    </div>
-    <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide">
-        <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
-    </div>
-    <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide">
-        <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
-    </div>
-    <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide">
-        <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
-    </div>
-    <div class="span5 span-parent split"></div>
-    <div class="span30 span-parent slide hide">
-        <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
-    </div>
-</div>
-<a id="prev" href="javascript:void(0)">Prev</a>
-<a id="next" href="javascript:void(0)">Next</a>
-    <div class="property-image" id="gallery2">
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+    <div class="row">
+        <div class="section">
+            <div class="property-image" id="gallery3">
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+                    <p>Text Content</p>
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+                    <p>Text Content</p>
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+                    <p>Text Content</p>
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+                    <p>Text Content</p>
+                </div>
+            </div>
+            <div id="thumbs3">
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+                </div>
+            </div>
         </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+        <div class="push"></div>
+        <div class="section">
+            <div id="thumbs4">
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
+                </div>
+                <div class="span30 span-parent slide">
+                    <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
+                </div>
+            </div>
+            <div class="property-image" id="gallery4">
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
+                </div>
+                <div class="slide">
+                    <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
+                </div>
+            </div>
         </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
-        </div>
-    </div>
-    <div class="row-fluid" id="thumbs2">
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
-        </div>
-    </div>
-    <div class="property-image" id="gallery3">
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_00.jpg" height="350" width="530">
-            <p>Text Content</p>
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_01.jpg" height="350" width="530">
-            <p>Text Content</p>
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_02.jpg" height="350" width="530">
-            <p>Text Content</p>
-        </div>
-        <div class="slide">
-            <img src="images/scale530x350/ded03_dbs140005_img_03.jpg" height="350" width="530">
-            <p>Text Content</p>
-        </div>
-    </div>
-    <div class="row-fluid" id="thumbs3">
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_00.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_01.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_02.jpg" height="102" width="155">
-        </div>
-        <div class="span30 span-parent slide">
-            <img src="images/scale155x102/ded03_dbs140005_img_03.jpg" height="102" width="155">
-        </div>
+        <div class="clearfix"></div>
     </div>
 </div>
 
@@ -218,6 +300,20 @@ $(function(){
         prevSelector:'#prev',
         nextSelector:'#next',
         autoLoop:false,
+        fx:'fade'
+    });
+    $('#gallery4').SlipGallery({
+        mainChildSelector:'.slide',
+        thumbsContainerSelector:'#thumbs4',
+        thumbsChildSelector:'.slide',
+        thumbsShown: 5,
+        thumbsHeight: '19.2%',
+        thumbsOrientation:'vertical',
+        prevSelector:'#prev',
+        nextSelector:'#next',
+        mainRatio:'1260x1026',
+        thumbsRatio:'1260x1026',
+        autoPlay:false,
         fx:'fade'
     });
 });

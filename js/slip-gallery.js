@@ -17,7 +17,7 @@
         nextSelector:'',
         fx:'none',
         fxSpeed:400,
-        autoLoop:true,
+        autoPlay:true,
         delay:3000,
         preload:true, //true/false or integer for number of images
         onReady:false
@@ -204,11 +204,10 @@
                         'display':'block',
                         'position':'absolute',
                         'top':'0px',
-                        'left':'0px',
-                        'width':'9999px'
+                        'left':'0px'
                     });
                     _thumbsChildren.css({
-                        'float':'left',
+                        'float':(settings.thumbsOrientation == 'vertical') ? 'none' : 'left',
                         'cursor':'pointer',
                         'display':'block'
                     });
@@ -296,9 +295,9 @@
                     controllers._nextBtn = _nextBtn;
 
                     initScale(controllers,settings);
-                    scrollThumbsTo(controllers,settings);
+                    scrollThumbs(controllers,settings);
                     addListeners(controllers,settings);
-                    autoLoop(controllers,settings);
+                    autoPlay(controllers,settings);
 
                     if (typeof settings.onReady === "function")
                     {
@@ -409,7 +408,7 @@
 
         if (controllers._thumbsContainer && controllers._thumbsChildren)
         {
-            var thumbsOrientation = (controllers.thumbsOrientation == 'vertical') ? 'vertical' : 'horizontal';
+            var thumbsOrientation = (settings.thumbsOrientation == 'vertical') ? 'vertical' : 'horizontal';
 
             controllers._thumbsContainer.css({'width':'','height':''});
 
@@ -446,8 +445,8 @@
             else controllers._thumbsContainer.height(newTContainerHeight);
 
             //controllers._thumbsWrap.width((((controllers._thumbsContainer.width()/settings.thumbsShown)+1)*controllers._thumbsChildren.length)+lastSpaceMargin);
-            controllers._thumbsWrap.width(newWrapWidth+5);
-            controllers._thumbsWrap.height(newWrapHeight+5);
+            controllers._thumbsWrap.width(newWrapWidth+(thumbsOrientation != 'vertical' ? 5 : 0));
+            controllers._thumbsWrap.height(newWrapHeight+(thumbsOrientation == 'vertical' ? 5 : 0));
             controllers._thumbsWrap.css('position','relative');
         }
     }
@@ -482,7 +481,8 @@
     {
         if (controllers._thumbsChildren && settings.thumbsShown >= 1)
         {
-            var dimension = (controllers.thumbsOrientation == 'vertical') ? 'Height' : 'Width';
+            var dimension = (settings.thumbsOrientation == 'vertical') ? 'Height' : 'Width';
+
             var p = {
                 thumbsContainerWidth:(settings.thumbsContainerWidth > 0) ? settings.thumbsContainerWidth : controllers._thumbsContainer.width(),
                 thumbsContainerHeight:(settings.thumbsContainerHeight > 0) ? settings.thumbsContainerHeight : controllers._thumbsContainer.height(),
@@ -534,12 +534,13 @@
                 p['thumbs'+dimension] = p['thumbsContainer'+dimension] / settings.thumbsShown;
             }
 
-            if (controllers.thumbsOrientation == 'vertical')
+            if (dimension == 'Height')
             {
                 controllers._thumbsChildren.each(function(){
                     var $this = $(this);
                     var pad = $this.outerHeight(false)-$this.height();
                     $this.height(p.thumbsHeight-pad).css('margin-bottom', p.thumbsSpace+'px');
+                    if (thumbsRatio) $this.width((p.thumbsHeight-pad)*(thumbsRatio.width/thumbsRatio.height));
                 });
             }
             else
@@ -660,19 +661,27 @@
         return f;
     }
 
-    function scrollThumbsTo(controllers,settings)
+    function scrollThumbs(controllers,settings)
     {
         controllers = controllers || {};
         settings = settings || {};
 
         if (controllers.newSlideIndex >= 0 && controllers.curSlideIndex >= 0 && controllers._thumbsContainer && controllers._thumbsWrap && controllers._thumbsChildren)
         {
+            var pos = (settings.thumbsOrientation == 'vertical') ? 'top' : 'left';
+            var dimension = (settings.thumbsOrientation == 'vertical') ? 'Height' : 'Width';
+
             controllers._thumbsChildren.eq(controllers.curSlideIndex).removeClass('slip-gallery-thumbs-slide-active');
             controllers._thumbsChildren.eq(controllers.newSlideIndex).addClass('slip-gallery-thumbs-slide-active');
 
-            var thumbsChildrenWidth = controllers._thumbsChildren.eq(0).outerWidth(false);
-            var thumbsContainerTWidth = controllers._thumbsContainer.width();
-            var thumbsShown = (settings.thumbsShown >= 1) ? settings.thumbsShown : Math.ceil(thumbsContainerTWidth / thumbsChildrenWidth);
+            var p = {
+                thumbsChildrenWidth:controllers._thumbsChildren.eq(0).outerWidth(false),
+                thumbsChildrenHeight:controllers._thumbsChildren.eq(0).outerHeight(false),
+                thumbsContainerTWidth:controllers._thumbsContainer.width(),
+                thumbsContainerTHeight:controllers._thumbsContainer.height()
+            };
+
+            var thumbsShown = (settings.thumbsShown >= 1) ? settings.thumbsShown : Math.ceil(p['thumbsContainerT'+dimension] / p['thumbsChildren'+dimension]);
 
             if (controllers._thumbsChildren.length > thumbsShown)
             {
@@ -681,49 +690,45 @@
                     var _newThumb = controllers._thumbsChildren.eq(controllers.newSlideIndex);
                     var _lastThumb = controllers._thumbsChildren.eq(controllers._thumbsChildren.length-1);
 
-                    var curLeft = Math.abs(controllers._thumbsWrap.position().left);
-                    var newLeft = _newThumb.position().left-((thumbsContainerTWidth/2)-(_newThumb.outerWidth(false)/2));
-                    var maxLeft = (_lastThumb.position().left+_lastThumb.outerWidth(false))-(thumbsContainerTWidth);
+                    var curPos = Math.abs(controllers._thumbsWrap.position()[pos]);
+                    var newPos = _newThumb.position()[pos]-((p['thumbsContainerT'+dimension]/2)-(_newThumb['outer'+dimension](false)/2));
+                    var maxPos = (_lastThumb.position()[pos]+_lastThumb['outer'+dimension](false))-(p['thumbsContainerT'+dimension]);
 
-                    var last_x_i =  controllers._thumbsChildren.length-thumbsShown;
-                    if (last_x_i >= 0)
+                    var last_i =  controllers._thumbsChildren.length-thumbsShown;
+
+                    if (last_i >= 0)
                     {
-                        var last_x_pos = controllers._thumbsChildren.eq(last_x_i).position().left;
-                        if (maxLeft > last_x_pos-1 && maxLeft < last_x_pos+1)
+                        var last_pos = controllers._thumbsChildren.eq(last_i).position()[pos];
+                        if (maxPos > last_pos-1 && maxPos < last_pos+1)
                         {
-                            maxLeft = last_x_pos;
+                            maxPos = last_pos;
                         }
                     }
 
-                    var first_x_i =  controllers.newSlideIndex-Math.floor(thumbsShown/2);
-                    if (first_x_i >= 0)
+                    var first_i =  controllers.newSlideIndex-Math.floor(thumbsShown/2);
+                    if (first_i >= 0)
                     {
-                        var first_x_pos = controllers._thumbsChildren.eq(first_x_i).position().left;
-                        if (newLeft > first_x_pos-1 && newLeft < first_x_pos+1)
+                        var first_pos = controllers._thumbsChildren.eq(first_i).position()[pos];
+                        if (newPos > first_pos-1 && newPos < first_pos+1)
                         {
-                            newLeft = first_x_pos;
+                            newPos = first_pos;
                         }
                     }
 
-                    //curLeft = roundDimension(curLeft);
-                    //newLeft = roundDimension(newLeft);
-                    //maxLeft = roundDimension(maxLeft);
+                    if (newPos < 1) newPos = 0;
+                    if (newPos > maxPos-1) newPos = maxPos;
 
-                    if (newLeft < 1) newLeft = 0;
-                    if (newLeft > maxLeft-1) newLeft = maxLeft;
+                    var newVal = '';
 
-                    var leftVal = '';
-
-                    if (curLeft != newLeft)
+                    if (curPos != newPos)
                     {
-                        leftVal = (-1*newLeft)+'px';
+                        newVal = (-1*newPos)+'px';
                     }
 
-                    if (leftVal)
+                    if (newVal)
                     {
-                        controllers._thumbsWrap.stop(true,false).animate({
-                            'left':leftVal
-                        },500);
+                        if (pos == 'top') controllers._thumbsWrap.stop(true,false).animate({'top':newVal},500);
+                        else controllers._thumbsWrap.stop(true,false).animate({'left':newVal},500);
                     }
                 }
             }
@@ -779,7 +784,7 @@
 
             if (controllers._thumbsContainer && controllers._thumbsChildren && controllers._thumbsWrap)
             {
-                scrollThumbsTo(controllers,settings);
+                scrollThumbs(controllers,settings);
             }
         }
 
@@ -835,7 +840,7 @@
         controllers = controllers || {};
         settings = settings || {};
 
-        if (settings.autoLoop)
+        if (settings.autoPlay)
         {
             controllers.timer = setTimeout(function(){nextSlide(controllers,settings);},settings.delay);
         }
@@ -846,7 +851,7 @@
         controllers = controllers || {};
         settings = settings || {};
 
-        if (settings.autoLoop)
+        if (settings.autoPlay)
         {
             if (controllers.timer)
             {
@@ -856,7 +861,7 @@
         }
     }
 
-    function autoLoop(controllers,settings)
+    function autoPlay(controllers,settings)
     {
         controllers = controllers || {};
         settings = settings || {};
