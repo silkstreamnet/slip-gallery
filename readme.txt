@@ -35,7 +35,10 @@ Things to Add
 
 - Add support for vertical thumbs
 - Sort out padding on slide and img (possibly due to content-box css)
+- Set max width and max height on slider images.
+- Add slider image centering (pos absolute, left 0, right 0, top 0, bottom 0, margin auto)
 - Allow any proportion image in gallery and thumbs (add new setting "scaleMode": "fit" or "crop") default "fit"
+- Re-engineer the scaler.
 
 
 @@@@@@@@
